@@ -37,10 +37,10 @@ export default function Discorver() {
     setIsLoading(true);
     getPlacesData().then((data) => {
       setMainData(data);
-      setInterval(()=>{
+      setInterval(() => {
         setIsLoading(false);
-      }, 2000); 
-    })
+      }, 2000);
+    });
   }, []);
 
   return (
@@ -116,27 +116,33 @@ export default function Discorver() {
             </View>
           </View>
 
-          <View className="flex-row items-center justify-center ">
+          <View className=" items-center justify-evenly flex-wrap flex-row mt-5">
             {mainData?.length > 0 ? (
               <>
                 {mainData?.map((data, i) => (
                   <Item
-                  key={i}
-                  imageSrc={
-                    data?.photo?.images?.medium?.url
-                    ? data?.photo?.images?.medium?.url
-                    : "https://cdn.pixabay.com/photo/2023/04/23/11/11/flowers-7945521_960_720.jpg"
-                  }
-                  title={data?.name}
-                  location={data?.location_string}
-                />
+                    key={i}
+                    imageSrc={
+                      data?.photo?.images?.medium?.url
+                        ? data?.photo?.images?.medium?.url
+                        : "https://cdn.pixabay.com/photo/2015/10/30/12/22/eat-1014025_1280.jpg"
+                    }
+                    title={data?.name}
+                    location={data?.location_string}
+                    data={data}
+                  />
                 ))}
               </>
             ) : (
               <>
                 <View className="w-full h-[400px] items-center space-y-8 justify-center">
-                  <Image source={Icons}  className="w-[30px] h-[30px]"/>
-                  <Text>Opps...No Data Found</Text>
+                  <Image
+                    source={NotFound}
+                    className=" w-32 h-32 object-cover"
+                  />
+                  <Text className="text-2xl text-[#428288] font-semibold">
+                    Opps...No Data Found
+                  </Text>
                 </View>
               </>
             )}
