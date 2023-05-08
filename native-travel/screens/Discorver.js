@@ -76,7 +76,7 @@ export default function Discorver() {
             setTr_lng(details?.geometry?.viewport?.northeast?.lng);
           }}
           query={{
-            key: "AIzaSyBEjwLbdQFeTgW7lfg1TdLUoBQagyIZCRc",
+            key: "Your API",
             language: "en",
           }}
         />
