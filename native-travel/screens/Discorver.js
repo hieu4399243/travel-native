@@ -7,6 +7,7 @@ import {
   Touchable,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import * as Animatable from "react-native-animatable";
@@ -17,6 +18,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import Menu from "../components/Menu";
 import { FontAwesome } from "@expo/vector-icons";
 import Item from "../components/Item";
+import { getPlacesData } from "../api";
 
 export default function Discorver() {
   const navigation = useNavigation();
@@ -30,6 +32,16 @@ export default function Discorver() {
       headerShown: false,
     });
   });
+
+  useEffect(() => {
+    setIsLoading(true);
+    getPlacesData().then((data) => {
+      setMainData(data);
+      setInterval(()=>{
+        setIsLoading(false);
+      }, 2000); 
+    })
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-[#c5f8ff] relative">
@@ -107,18 +119,18 @@ export default function Discorver() {
           <View className="flex-row items-center justify-center ">
             {mainData?.length > 0 ? (
               <>
-                <Item
-                  key={"101"}
-                  imageSrc="https://cdn.pixabay.com/photo/2023/05/03/08/56/fungus-7966987_960_720.jpg"
-                  title="Ha Long Bay"
-                  location="Ha Long, Viet Nam"
+                {mainData?.map((data, i) => (
+                  <Item
+                  key={i}
+                  imageSrc={
+                    data?.photo?.images?.medium?.url
+                    ? data?.photo?.images?.medium?.url
+                    : "https://cdn.pixabay.com/photo/2023/04/23/11/11/flowers-7945521_960_720.jpg"
+                  }
+                  title={data?.name}
+                  location={data?.location_string}
                 />
-                <Item
-                  key={"102"}
-                  imageSrc="https://cdn.pixabay.com/photo/2013/04/04/12/34/mountains-100367_960_720.jpg"
-                  title="Do Son"
-                  location="Hai Phong, Viet Nam"
-                />
+                ))}
               </>
             ) : (
               <>
