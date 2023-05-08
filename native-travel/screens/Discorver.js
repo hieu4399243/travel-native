@@ -26,6 +26,10 @@ export default function Discorver() {
   const [type, settype] = useState("restaurants");
   const [isLoading, setIsLoading] = useState(false);
   const [mainData, setMainData] = useState([]);
+  const [bl_lat, setBl_lat] = useState(null);
+  const [bl_lng, setBl_lng] = useState(null);
+  const [tr_lat, setTr_lat] = useState(null);
+  const [tr_lng, setTr_lng] = useState(null);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -35,14 +39,13 @@ export default function Discorver() {
 
   useEffect(() => {
     setIsLoading(true);
-    getPlacesData().then((data) => {
+    getPlacesData(bl_lat, bl_lng, tr_lat, tr_lng).then((data) => {
       setMainData(data);
       setInterval(() => {
         setIsLoading(false);
       }, 2000);
     });
-  }, []);
-
+  }, [bl_lat, bl_lng, tr_lat, tr_lng]);
   return (
     <SafeAreaView className="flex-1 bg-[#c5f8ff] relative">
       <View className="flex-row justify-between items-center px-8">
@@ -61,13 +64,19 @@ export default function Discorver() {
       </View>
       <View className="flex-row items-center bg-white mx-4 rounded-xl py-1 px-4 mt-4 shadow-lg">
         <GooglePlacesAutocomplete
+          GooglePlacesDetailsQuery={{fields: "geometry"}}
           placeholder="Search"
+          fetchDetails={true}
           onPress={(data, details = null) => {
             // 'details' is provided when fetchDetails = true
-            console.log(data, details);
+            console.log(details?.geometry?.viewport);
+            setBl_lat(details?.geometry?.viewport?.southwest?.lat);
+            setBl_lng(details?.geometry?.viewport?.southwest?.lng);
+            setTr_lat(details?.geometry?.viewport?.northeast?.lat);
+            setTr_lng(details?.geometry?.viewport?.northeast?.lng);
           }}
           query={{
-            key: "your api",
+            key: "AIzaSyBEjwLbdQFeTgW7lfg1TdLUoBQagyIZCRc",
             language: "en",
           }}
         />
