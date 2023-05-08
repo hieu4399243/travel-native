@@ -42,7 +42,7 @@ export default function Discorver() {
             console.log(data, details);
           }}
           query={{
-            key: "AIzaSyBEjwLbdQFeTgW7lfg1TdLUoBQagyIZCRc",
+            key: "your api",
             language: "en",
           }}
         />
