@@ -127,6 +127,7 @@ export default function Discorver() {
                         ? data?.photo?.images?.medium?.url
                         : "https://cdn.pixabay.com/photo/2015/10/30/12/22/eat-1014025_1280.jpg"
                     }
+                    
                     title={data?.name}
                     location={data?.location_string}
                     data={data}
@@ -137,7 +138,7 @@ export default function Discorver() {
               <>
                 <View className="w-full h-[400px] items-center space-y-8 justify-center">
                   <Image
-                    source={NotFound}
+                    source={Icons}
                     className=" w-32 h-32 object-cover"
                   />
                   <Text className="text-2xl text-[#428288] font-semibold">
