@@ -1,16 +1,29 @@
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  Touchable,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Avatar, HeroImage, Hotel, Restaurants, Att } from "../assets";
+import { Avatar, HeroImage, Hotel, Restaurants, Att, Icons } from "../assets";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Menu from "../components/Menu";
+import { FontAwesome } from "@expo/vector-icons";
+import Item from "../components/Item";
 
 export default function Discorver() {
   const navigation = useNavigation();
 
   const [type, settype] = useState("restaurants");
+  const [isLoading, setIsLoading] = useState(true);
+  const [mainData, setMainData] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -47,33 +60,71 @@ export default function Discorver() {
           }}
         />
       </View>
+      {isLoading ? (
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size="large" color="#0B646B" />
+        </View>
+      ) : (
+
       <ScrollView>
         <View className="flex-row items-center justify-between px-8 mt-8">
-          <Menu 
+          <Menu
             key={"hotel"}
             title="Hotel"
-            imageSrc = {Hotel}
-            type ={type}
+            imageSrc={Hotel}
+            type={type}
             settype={settype}
           />
-          <Menu 
+          <Menu
             key={"Att"}
             title="Attraction"
-            imageSrc = {Att}
-            type ={type}
+            imageSrc={Att}
+            type={type}
             settype={settype}
           />
-          <Menu 
+          <Menu
             key={"Restaurants"}
             title="Restaurants"
-            imageSrc = {Restaurants}
-            type ={type}
+            imageSrc={Restaurants}
+            type={type}
             settype={settype}
           />
+        </View>
+
+        <View>
+          <View className="flex-row justify-between px-4 items-center mt-8">
+            <Text className="text-[#2C7379] text-[24px] font-semibold">
+              Top Tips
+            </Text>
+            <TouchableOpacity className="flex-row justify-between items-center space-x-2">
+              <Text className=" text-[#A0C4C7] text-[20px] font-bold">
+                Explore
+              </Text>
+              <FontAwesome name="long-arrow-right" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View className="flex-row items-center justify-center ">
           
+              <Item
+              key={"101"}
+              imageSrc="https://cdn.pixabay.com/photo/2023/05/03/08/56/fungus-7966987_960_720.jpg"
+              title="Ha Long Bay"
+              location="Ha Long, Viet Nam"
+              />
+              <Item
+                key={"102"}
+                imageSrc="https://cdn.pixabay.com/photo/2013/04/04/12/34/mountains-100367_960_720.jpg"
+                title="Do Son"
+                location="Hai Phong, Viet Nam"
+              />
+            
           
         </View>
       </ScrollView>
+      )}
+
     </SafeAreaView>
   );
 }

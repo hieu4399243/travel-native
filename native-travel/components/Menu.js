@@ -21,7 +21,7 @@ export default function Menu({ title, imageSrc, type, settype }) {
       >
         <Image source={imageSrc} className="w-full h-full object-contain " />
       </View>
-      <Text className="text-[#00BCC9]">{title}</Text>
+      <Text className="text-[#00BCC9] font-semibold text-[16px]">{title}</Text>
     </TouchableOpacity>
   );
 }
